@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lens Craft Photography</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f1ea;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #222;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            color: #d4a373;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 10px;
+        }
+
+        nav a:hover {
+            color: #d4a373;
+        }
+
+        .hero {
+            min-height: 350px;
+            background: linear-gradient(#0008, #0008),
+            url("https://images.unsplash.com/photo-1452587925148-ce544e77e70d")
+            center/cover;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background: #b47b46;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #80552f;
+        }
+
+        section {
+            padding: 45px 8%;
+            text-align: center;
+        }
+
+        section h2 {
+            margin-bottom: 20px;
+        }
+
+        #search {
+            width: 250px;
+            max-width: 100%;
+            padding: 12px;
+            margin: 10px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .photo {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px #0002;
+            transition: transform 0.3s;
+        }
+
+        .photo:hover {
+            transform: translateY(-5px);
+        }
+
+        .photo img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo h3 {
+            margin-top: 10px;
+        }
+
+        .photo p {
+            padding-bottom: 12px;
+            color: #666;
+        }
+
+        .about {
+            background: #e8dfd2;
+        }
+
+        .packages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .package {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px #0002;
+        }
+
+        .package h3 {
+            color: #a66b35;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 11px;
+            margin: 8px 0;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+        }
+
+        .form-box {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        #bill, #photoDetails {
+            display: none;
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+
+        footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+            }
+
+            .hero h2 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Lens Craft Photography</h1>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#gallerySection">Gallery</a>
+        <a href="#about">About</a>
+        <a href="#packages">Packages</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
+
+<section class="hero" id="home">
+    <h2>Capture Every Moment</h2>
+    <p>Beautiful photographs, unforgettable memories.</p>
+    <button id="explore">Explore Gallery</button>
+    <button id="theme">Change Theme</button>
+</section>
+
+<section id="gallerySection">
+    <h2>Our Photography Gallery</h2>
+    <p>Explore our collection of beautiful photographs.</p>
+
+    <input type="text" id="search"
+           placeholder="Search photographs...">
+
+    <div>
+        <button class="filter" value="All">All Photos</button>
+        <button class="filter" value="Nature">Nature</button>
+        <button class="filter" value="Travel">Travel</button>
+        <button class="filter" value="Portrait">Portrait</button>
+        <button class="filter" value="Wildlife">Wildlife</button>
+    </div>
+
+    <div class="gallery" id="gallery"></div>
+
+    <div id="photoDetails"></div>
+</section>
+
+<section class="about" id="about">
+    <h2>About Lens Craft</h2>
+
+    <p>
+        Lens Craft Photography is a creative photography portfolio
+        dedicated to capturing nature, travel, portraits and wildlife.
+        We preserve special moments through beautiful images and
+        professional photography services.
+    </p>
+
+    <p id="extra" style="display:none; margin-top:15px;">
+        Our goal is to tell stories through photographs and make every
+        memory special. We focus on creativity, quality and customer
+        satisfaction.
+    </p>
+
+    <button id="readMore">Read More</button>
+</section>
+
+<section id="packages">
+    <h2>Photography Packages</h2>
+
+    <div class="packages">
+        <div class="package">
+            <h3>Basic Package</h3>
+            <p>Outdoor Photography</p>
+            <h3>Rs. 1500</h3>
+        </div>
+
+        <div class="package">
+            <h3>Portrait Package</h3>
+            <p>Professional Portrait Session</p>
+            <h3>Rs. 2500</h3>
+        </div>
+
+        <div class="package">
+            <h3>Wedding Package</h3>
+            <p>Wedding Photography Session</p>
+            <h3>Rs. 8000</h3>
+        </div>
+
+        <div class="package">
+            <h3>Event Package</h3>
+            <p>Birthday and Event Photography</p>
+            <h3>Rs. 4000</h3>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2>Photography Booking Calculator</h2>
+
+    <div class="form-box">
+        <label for="packageSelect">Select Package</label>
+
+        <select id="packageSelect">
+            <option value="1500">Basic - Rs.1500</option>
+            <option value="2500">Portrait - Rs.2500</option>
+            <option value="8000">Wedding - Rs.8000</option>
+            <option value="4000">Event - Rs.4000</option>
+        </select>
+
+        <label for="days">Number of Days</label>
+        <input type="number" id="days" value="1" min="1" max="30">
+
+        <button id="calculate">Calculate Amount</button>
+
+        <div id="bill">
+            <h3>Booking Estimate</h3>
+            <p id="billDetails"></p>
+            <h3 id="total"></h3>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="about">
+    <h2>Contact Us</h2>
+
+    <div class="form-box">
+        <form id="contactForm">
+            <input type="text" id="name"
+                   placeholder="Enter your name" required>
+
+            <input type="email" id="email"
+                   placeholder="Enter your email" required>
+
+            <textarea id="message" rows="4"
+                      placeholder="Enter your message" required></textarea>
+
+            <button type="submit">Send Message</button>
+            <button type="reset">Clear Form</button>
+        </form>
+
+        <p id="response"></p>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 Lens Craft Photography | All Rights Reserved</p>
+    <p>Photography is the art of capturing memories.</p>
+</footer>
+
+<script>
+$(document).ready(function() {
+
+    let photos = [
+        {
+            name: "Mountain Sunrise",
+            category: "Nature",
+            year: 2026,
+            image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b"
+        },
+        {
+            name: "Ocean View",
+            category: "Travel",
+            year: 2026,
+            image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+        },
+        {
+            name: "Portrait Photography",
+            category: "Portrait",
+            year: 2025,
+            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d"
+        },
+        {
+            name: "Wildlife Photography",
+            category: "Wildlife",
+            year: 2025,
+            image: "https://images.unsplash.com/photo-1549366021-9f761d450615"
+        },
+        {
+            name: "Forest Beauty",
+            category: "Nature",
+            year: 2026,
+            image: "https://images.unsplash.com/photo-1448375240586-882707db888b"
+        },
+        {
+            name: "Beautiful Landscape",
+            category: "Travel",
+            year: 2025,
+            image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e"
+        }
+    ];
+
+    let category = "All";
+    let currentPhoto = null;
+
+    function displayPhotos() {
+        $("#gallery").empty();
+
+        let searchText = $("#search").val().toLowerCase();
+
+        $.each(photos, function(index, photo) {
+
+            if ((category === "All" || photo.category === category) &&
+                photo.name.toLowerCase().includes(searchText)) {
+
+                let card = $("<div>").addClass("photo");
+
+                $("<img>")
+                    .attr("src", photo.image)
+                    .attr("alt", photo.name)
+                    .appendTo(card);
+
+                $("<h3>").text(photo.name).appendTo(card);
+                $("<p>").text(photo.category).appendTo(card);
+
+                $("<button>")
+                    .text("View Details")
+                    .on("click", function() {
+                        currentPhoto = photo;
+
+                        $("#photoDetails")
+                            .html(
+                                "<h3>" + photo.name + "</h3>" +
+                                "<p>Category: " + photo.category + "</p>" +
+                                "<p>Year: " + photo.year + "</p>"
+                            )
+                            .slideDown();
+                    })
+                    .appendTo(card);
+
+                $("#gallery").append(card);
+            }
+        });
+
+        if ($("#gallery").children().length === 0) {
+            $("#gallery").html("<p>No photographs found.</p>");
+        }
+    }
+
+    displayPhotos();
+
+    $(".filter").click(function() {
+        category = $(this).val();
+        displayPhotos();
+    });
+
+    $("#search").on("input", function() {
+        displayPhotos();
+    });
+
+    $("#explore").click(function() {
+        $("#gallerySection").get(0).scrollIntoView({
+            behavior: "smooth"
+        });
+    });
+
+    $("#theme").click(function() {
+        $("body").css({
+            "background-color": "#e8dfd2",
+            "color": "#333"
+        });
+    });
+
+    $("#readMore").click(function() {
+        $("#extra").slideToggle();
+
+        if ($(this).text() === "Read More") {
+            $(this).text("Read Less");
+        } else {
+            $(this).text("Read More");
+        }
+    });
+
+    $("#calculate").click(function() {
+        let price = Number($("#packageSelect").val());
+        let days = Number($("#days").val());
+
+        if (!Number.isInteger(days) || days < 1 || days > 30) {
+            alert("Please enter a number of days from 1 to 30.");
+            return;
+        }
+
+        let amount = price * days;
+
+        $("#billDetails").text(
+            "Package Price: Rs." + price +
+            " | Number of Days: " + days
+        );
+
+        $("#total").text("Total Amount: Rs." + amount);
+        $("#bill").slideDown();
+    });
+
+    $("#contactForm").submit(function(event) {
+        event.preventDefault();
+
+        let name = $("#name").val().trim();
+
+        $("#response")
+            .text("Thank you, " + name +
+                  "! Your message has been prepared successfully.")
+            .css("color", "green");
+
+        this.reset();
+    });
+
+    $("#contactForm").on("reset", function() {
+        $("#response").text("");
+    });
+
+});
+</script>
+
+</body>
+</html>
